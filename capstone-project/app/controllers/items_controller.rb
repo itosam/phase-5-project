@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
 
-skip_before_action :authenticate, except: [:create]
+# skip_before_action :authenticate, except: [:create]
 
     def index
         render json: Item.all

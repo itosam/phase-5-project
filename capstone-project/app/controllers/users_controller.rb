@@ -1,9 +1,13 @@
 class UsersController < ApplicationController
 
-    skip_before_action :authenticate, except: [:profile]
+    # skip_before_action :authenticate, except: [:profile]
 
     def profile
         render json: @user, include: [:items]
+    end
+
+    def index
+        render json: User.all
     end
 
     def create
