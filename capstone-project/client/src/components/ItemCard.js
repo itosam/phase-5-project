@@ -33,7 +33,13 @@ const ItemCard = ({ id, name, price, image, brand, description }) => {
     <Card
       className="card"
       variant="light"
-      style={{ width: "10rem", padding: "1rem", margin: "1rem", border: "2px" }}
+      style={{
+        width: "16rem",
+        padding: "1rem",
+        margin: "2rem",
+        border: " #BEBEBE solid 1px",
+        borderRadius: "0",
+      }}
     >
       <NavLink to={`/ItemInfo/${id}`} handleAddItem={handleAddItem}>
         <Card.Img
@@ -49,28 +55,50 @@ const ItemCard = ({ id, name, price, image, brand, description }) => {
           <br />
         </Card.Title>
         <div>
-          <p>
+          <p margin>
             <strong>Brand:</strong> {brand}
           </p>
           <p>
-            <strong>brand:</strong> ${price}
+            <strong>Price:</strong> ${price}
           </p>
         </div>
 
-        <Button
-          variant="outline-dark"
-          size="sm"
-          style={{ border: "solid 2px" }}
-          onClick={handleAddItem}
-        >
+        <button class="add_button" onClick={handleAddItem}>
           Add to Cart
-        </Button>
+        </button>
       </Card.Body>
-      {showAlert ? <Alert variant="warning" style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>Login to Purchase
-          </Alert> : ""}
-      {addToCart ? <Alert variant="secondary" style={{ display: "flex", alignItems: "center", justifyContent: "space-around", height: "10%" }}>item added
-            <Button variant="secondary" onClick={() => setAddToCart(false)}>x</Button>
-          </Alert> : ""}
+      {showAlert ? (
+        <Alert
+          variant="warning"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-around",
+          }}
+        >
+          Login to Purchase
+        </Alert>
+      ) : (
+        ""
+      )}
+      {addToCart ? (
+        <Alert
+          variant="secondary"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-around",
+            height: "10%",
+          }}
+        >
+          item added
+          <Button variant="secondary" onClick={() => setAddToCart(false)}>
+            x
+          </Button>
+        </Alert>
+      ) : (
+        ""
+      )}
     </Card>
   );
 };

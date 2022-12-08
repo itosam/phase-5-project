@@ -21,7 +21,14 @@ const ItemList = ({items}) => {
     image={item.image}
   />)});
   return (
-    <Container className="bg-light text-center" style={{ marginTop: "10px", paddingTop:"10px"}}>
+    <Container
+      className="bg text-center"
+      style={{
+        backgroundColor: "white",
+        marginTop: "10px",
+        paddingTop: "10px",
+      }}
+    >
       <SearchFilter searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <div
         style={{

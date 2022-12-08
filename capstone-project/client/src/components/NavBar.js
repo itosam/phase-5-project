@@ -19,18 +19,18 @@ const NavBar = () => {
   }
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="dark" varient="dark" expand="lg">
       <Container>
-        <Navbar.Brand href="/">
-          <strong>Be@rbrick and Mortar</strong>
+        <Navbar.Brand href="/" style={{ color: "white" }}>
+          Be@rbrick and Mortar
         </Navbar.Brand>
         <Nav>
-          <Nav.Link href="/login">
+          <Nav.Link href="/login" style={{ color: "white" }}>
             {" "}
             {user !== null ? `Account` : "Login"}
           </Nav.Link>
           <Nav.Link href="/cart">
-            <ImCart onClick={handleClick} />
+            <ImCart onClick={handleClick} style={{ color: "white" }} />
           </Nav.Link>
         </Nav>
       </Container>

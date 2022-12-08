@@ -2,6 +2,7 @@
 
 import ItemList from "./ItemList"
 import Footer from "./Footer";
+import frame26 from "./Images/frame26.png"
 
 const Home = ({items}) => {
     return (
@@ -9,7 +10,8 @@ const Home = ({items}) => {
         <img
           className="home_img"
           alt="home img"
-          src="https://rejuvage.com/wp-content/uploads/2017/02/secondary-banner-placeholder.jpg"
+          src={frame26}
+          
         />
         <ItemList items={items} />
         <Footer />

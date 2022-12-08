@@ -1,10 +1,11 @@
 
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { Alert, Button, Card } from "react-bootstrap";
+import { Alert, Button, Card, Row, Col } from "react-bootstrap";
 import { UserContext } from "./context/Users";
 import { IsLoginContext } from "./context/IsLogin";
 import Review from "./Review"
+import ItemList from "./ItemList";
 
 const ItemInfo = () => {
   const { user } = useContext(UserContext);
@@ -49,18 +50,22 @@ function handleAddItem() {
         className="mx-auto"
         style={{
           width: "50%",
-          padding: "1rem",
+          padding: "3rem",
           marginLeft: "10%",
-          marginTop: "2%",
-          marginBottom: "2%",
+          marginTop: "15%",
+          marginBottom: "20%",
         }}
       >
         <Card.Body style={{ textAlign: "left" }}>
+          <Row>
+          <Col>
           <img
             src={itemInfo.image}
             alt={itemInfo.title}
-            style={{ position: "relative", width: "20rem" }}
+            style={{ position: "flex", width: "100%" }}
           />
+          </Col>
+          <Col>
           <strong>{itemInfo.name}</strong>
           <p>
             <strong>Description</strong>
@@ -81,7 +86,10 @@ function handleAddItem() {
           >
             Add to Cart
           </Button>
+          </Col>
+          </Row>
         </Card.Body>
+        
         {showAlert ? (
           <Alert
             variant="warning"
