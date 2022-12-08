@@ -1,15 +1,17 @@
-import React, { useState } from "react";
-import { NavLink, useHistory } from "react-router-dom";
-import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
+import React, { useState, useContext } from "react";
+import { UserContext } from "./context/Users";
+import { IsLoginContext } from "./context/IsLogin";
+import { useHistory } from "react-router-dom";
+import { Alert, Col, Button, Row, Container, Card, Form } from "react-bootstrap";
 
-function CreateAccount({ returnUserId }) {
-  const [name, setName] = useState(null);
-  const [lastName, setlastName] = useState(null);
+const CreateAccount = () => {
+  const {setUser} = useContext(UserContext)
+  const {setIsLogin} = useContext(IsLoginContext)
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
   const [confirmP, setConfirmP] = useState(null);
-
-  const [errorMessage, setErrorMessage] = useState("Create Account");
+  const [isLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState([]);
 
   const navigate = useHistory();
 
@@ -31,30 +33,28 @@ function CreateAccount({ returnUserId }) {
     if (password !== confirmP) {
       setErrorMessage("Passwords do not match, try again.");
     } else {
-      const newUser = {
-        username: username,
-        password: password,
-      };
-
-      fetch("/users", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(newUser),
-      })
-        .then((r) => r.json())
-        .then((user) => {
-          returnUserId(user.id);
-          navigate.push("/home");
-        });
-    }
-  }
-
-  const backStyle = {
-    color: "white",
-    marginLeft: "-320px",
-  };
+      setErrorMessage([]);
+        fetch("/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username,
+            password,
+          })
+        }).then((r) => {
+          if (r.ok) {
+            r.json().then((user) => {
+            navigate('/login')
+          
+            setIsLogin(true)
+            setUser(user)});
+          } else {
+            r.json().then((err) => setErrorMessage(err.error));
+          }
+        })
+  }}
 
   return (
     <div>
@@ -64,12 +64,9 @@ function CreateAccount({ returnUserId }) {
             <Card className="shadow">
               <Card.Body>
                 <div className="mb-3 mt-md-4">
-                  <h2 className="fw-bold mb-2">
-                    Create an Account
-                  </h2>
+                  <h2 className="fw-bold mb-2">Create an Account</h2>
                   <div className="mb-3">
                     <Form onSubmit={handleForm}>
-
                       <Form.Group className="mb-3" controlId="formUsername">
                         <Form.Control
                           type="text_field"
@@ -104,11 +101,24 @@ function CreateAccount({ returnUserId }) {
                       </Form.Group>
 
                       <div className="d-grid">
-                        <Button variant="outline-secondary" type="submit">
-                          {errorMessage}
+                        <Button variant="outline-dark" type="submit">
+                          {isLoading ? "Loading..." : "Sign up"}
                         </Button>
                       </div>
                     </Form>
+                    {errorMessage.length === 0 ? (
+                      ""
+                    ) : (
+                      <Alert>{errorMessage}</Alert>
+                    )}
+                    <div className="mt-3">
+                      <p className="mb-0  text-center">
+                        have an account?{" "}
+                        <a href="/login" className="text-primary fw-bold">
+                          back to Login
+                        </a>
+                      </p>
+                    </div>
                   </div>
                 </div>
               </Card.Body>
@@ -118,6 +128,6 @@ function CreateAccount({ returnUserId }) {
       </Container>
     </div>
   );
-}
+  }
 
 export default CreateAccount;

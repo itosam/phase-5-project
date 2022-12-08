@@ -1,72 +1,45 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
+import { Alert, Button, Card } from "react-bootstrap";
+import { UserContext } from "./context/Users";
+import { IsLoginContext } from "./context/IsLogin";
+import Review from "./Review"
 
 const ItemInfo = () => {
+  const { user } = useContext(UserContext);
+  const { isLogin } = useContext(IsLoginContext);
+  const [showAlert, setShowAlert] = useState(false);
+  const [addToCart, setAddToCart] = useState(false);
   const [itemInfo, setItemInfo] = useState(null);
-  // const [itemReviews, setItemReviews] = useState([]);
-  // const [reviewScore, setReviewScore] = useState(0.0);
-  // const [reviewUpdate, setReviewUpdate] = useState(false);
+ 
   const { id } = useParams();
   useEffect(() => {
     fetch(`/items/${id}`)
       .then((res) => res.json())
       .then((item) => {
         setItemInfo(item);
-        console.log()
         // setItemReviews(game.reviews);
       });
   }, []);
-  // useEffect(() => {
-  //   fetch(`itemReview/${id}`)
-  //     .then((r) => r.json())
-  //     .then((score) => setReviewScore(score));
-  // }, [reviewUpdate]);
-  // function changeReview() {
-  //   setReviewUpdate(() => !reviewUpdate);
-  // }
-  // // onAddReview passed down to Reviewform
-  // const onAddReview = (newReview) => {
-  //   setGameReviews([...gameReviews, newReview]);
-  // };
-
-  // function handleDelete(e) {
-
-  //   const filtered = gameReviews.filter(
-  //     (review) => {
-  //       return review.id !== parseInt(e.target.id)
-  //     }
-  //   );
-  //   fetch(`https://haunted-labyrinth-78551.herokuapp.com/reviews/${e.target.id}`, {
-  //     method: "DELETE",
-  //   })
-  //     .then(setGameReviews(filtered))
-  //     .then(changeReview());
-
-  // }
-  // const displayReviews = gameReviews.map((review) => {
-  //   return (
-  //     <div key={uuid()}>
-  //       <label style={{ fontWeight: "bold" }}>{review.user.name}</label>
-  //       <p style={{ fontWeight: "normal" }}>
-  //         <strong>Score:</strong> {review.score}
-  //         <br />
-  //         {review.comment}
-  //         <label
-  //           id={review.id}
-  //           style={{ marginLeft: "10px" }}
-  //           onClick={handleDelete}
-  //         >
-  //           {" "}
-  //           ❌
-  //         </label>
-  //       </p>
-  //     </div>
-  //   );
-  // });
-
+  
+function handleAddItem() {
+  if (isLogin === false) {
+    setShowAlert(true);
+  } else
+    fetch("/cart_items", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: user.id,
+        item_id: itemInfo.id,
+      }),
+    })
+      .then((r) => r.json())
+      .then(setAddToCart(true));
+}
   if (itemInfo == null) {
     return <div></div>;
   }
@@ -95,7 +68,7 @@ const ItemInfo = () => {
             {itemInfo.description}
           </p>
           <p>
-            <strong>Category:</strong> {itemInfo.category}
+            <strong>Brand:</strong> {itemInfo.brand}
           </p>
           <p>
             <strong>Price:</strong> ${itemInfo.price}
@@ -104,17 +77,45 @@ const ItemInfo = () => {
             variant="outline-dark"
             size="sm"
             style={{ border: "solid 2px" }}
+            onClick={handleAddItem}
           >
             Add to Cart
           </Button>
         </Card.Body>
+        {showAlert ? (
+          <Alert
+            variant="warning"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-around",
+            }}
+          >
+            Login to Purchase
+          </Alert>
+        ) : (
+          ""
+        )}
+        {addToCart ? (
+          <Alert
+            variant="secondary"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-around",
+              height: "3rem",
+            }}
+          >
+            item added
+            <Button variant="secondary" onClick={() => setAddToCart(false)}>
+              x
+            </Button>
+          </Alert>
+        ) : (
+          ""
+        )}
       </Card>
-      {/* <GameForm
-        gameId={id}
-        onAddReview={onAddReview}
-        currentUserId={currentUserId}
-        changeReview={changeReview}
-      /> */}
+      <Review/>
     </div>
   );
 };

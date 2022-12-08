@@ -2,27 +2,29 @@ class UsersController < ApplicationController
 
     # skip_before_action :authenticate, except: [:profile]
 
-    def profile
-        render json: @user, include: [:items]
-    end
-
     def index
         render json: User.all
     end
 
-    def create
-        @user = User.create!(user_params)
+     def show
+        user = User.find_by(id: session[:user_id])
+           render json: user
+     end
 
-        if @user.save
-            render json: @user, status: :created
+    def create
+        user = User.create!(user_params)
+
+        if user.valid?
+            session[:user_id] = user.id
+            render json: user, status: :created
         else
-            render json: {error: "User not created"}, status: :bad_request
+            render json: {error: "Invalid username or password-user not created"}, status: :bad_request
         end
     end
 
     def destroy
-        @user = User.find(params[:id])
-        @user.destroy
+        user = User.find(params[:id])
+        user.destroy
     end
 
     private

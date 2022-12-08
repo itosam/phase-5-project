@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Col, Button, Row, Container, Card, Form, Alert } from "react-bootstrap";
+import { UserContext } from "./context/Users";
+import { IsLoginContext } from "./context/IsLogin";
 
-function Login({ returnUserId }) {
-  const [users, setUsers] = useState([]);
+function Login() {
+  const { setUser } = useContext(UserContext);
+  const { setIsLogin } = useContext(IsLoginContext);
 
   const [username, setUsername] = useState(null);
 
   const [password, setPassword] = useState(null);
 
-  const [message, setMessage] = useState("Login");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const navigate = useHistory();
+  const [errors, setErrors] = useState([]);
 
   function handleName(e) {
     setUsername(e.target.value);
@@ -21,30 +23,27 @@ function Login({ returnUserId }) {
     setPassword(e.target.value);
   }
 
-  useEffect(() => {
-    fetch("/users")
-      .then((r) => r.json())
-      .then((users) => setUsers(users));
-  }, []);
-
-  function validateUser(e) {
-    e.preventDefault();
-
-    const user = users.find((user) => {
-      return username === user.username && password === user.password;
-    });
-
-    if (user !== undefined) {
-      setMessage("Loggin in...");
-      setTimeout(() => {
-        returnUserId(user.id);
-        // setMessage(null);
-        navigate.push("/account");
-      }, 1000);
+function handleSubmit(e) {
+  e.preventDefault();
+  setIsLoading(true);
+  fetch("/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ username, password }),
+  }).then((r) => {
+    setIsLoading(false);
+    if (r.ok) {
+      r.json().then((user) => {
+        setUser(user);
+        setIsLogin(true);
+      });
     } else {
-      setMessage("Invalid information. Please try again.");
+      r.json().then((err) => setErrors(err));
     }
-  }
+  });
+}
 
   return (
     <div>
@@ -54,12 +53,10 @@ function Login({ returnUserId }) {
             <Card className="shadow" variant="light">
               <Card.Body>
                 <div className="mb-3 mt-md-4">
-                  <h2 className="fw-bold mb-2 ">
-                    StopToShop
-                  </h2>
+                  <h2 className="fw-bold mb-2 ">StopToShop</h2>
                   <p className=" mb-5">Please enter your login and password!</p>
                   <div className="mb-3">
-                    <Form onSubmit={validateUser}>
+                    <Form onSubmit={handleSubmit}>
                       <Form.Group className="mb-3" controlId="formUsername">
                         <Form.Label className="text-center">
                           Username
@@ -84,19 +81,14 @@ function Login({ returnUserId }) {
                           required
                         />
                       </Form.Group>
-                      <Form.Group
-                        className="mb-3"
-                        controlId="formBasicCheckbox"
-                      >
-                        <p className="small">
-                          <a className="text-primary" href="/forgotPassword">
-                            Forgot password?
-                          </a>
-                        </p>
-                      </Form.Group>
+                      {errors.length === 0 ? (
+                        ""
+                      ) : (
+                        <Alert severity="error">{errors.error}</Alert>
+                      )}
                       <div className="d-grid">
                         <Button variant="outline-dark" type="submit">
-                          {message}
+                          {isLoading ? "Loading..." : "Login"}
                         </Button>
                       </div>
                     </Form>
