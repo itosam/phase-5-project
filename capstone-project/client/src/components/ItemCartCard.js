@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, Col, Row } from "react-bootstrap";
 
 const ItemCartCard = ({ item, id, onDeleteItem }) => {
   function handleClick() {
@@ -13,24 +13,23 @@ const ItemCartCard = ({ item, id, onDeleteItem }) => {
   }
   return (
     <div style={{ padding: "0.5rem" }}>
-      <Card style={{ width: "18rem" }}>
+      <Card>
+        <Row>
+        <Col>
         <Card.Img
-          variant="top"
           src={item.image}
-          width={250}
-          height={250}
-        />
-        <Card.Body>
-          <Card.Title>{item.name}</Card.Title>
-          <Card.Text>${item.price}</Card.Text>
-          <Card.Body
-            style={{ display: "flex", justifyContent: "space-around" }}
-          >
-            <Button variant="secondary" onClick={handleClick}>
+          style={{ width: "15rem", marginLeft:"28%" }}/>
+        </Col>
+        <Col>
+        <Card.Body style={{ marginTop:"20px" }}>
+          <Card.Text>{item.name}</Card.Text>
+          <Card.Text>Price: ${item.price}</Card.Text>
+            <button className="add_button" onClick={handleClick} style={{marginTop:"5%"}}>
               Remove from Cart
-            </Button>
-          </Card.Body>
+            </button>
         </Card.Body>
+      </Col>
+        </Row>
       </Card>
     </div>
   );

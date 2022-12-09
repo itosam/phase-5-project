@@ -71,6 +71,17 @@ input{
 .add_button:hover{
   background-color: #f6e7b1;
 }
+.login_button {
+  background-color: #FFD74A;
+  border-radius: 50px;
+  padding: 8px 40px;
+  border: none;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+}
+.login_button:hover {
+  background-color: #f6e7b1;
+}
 
 
  .card-img-top {
@@ -80,7 +91,12 @@ input{
       transform: scale(1.2);
     }
 
+.form{
+  margin: 5% 25% 25%
+}
+
 .footer {
+  font-family: 'Inter', sans-serif;
   margin-top: 4rem;
   padding: 1rem;
   background-color: rgb(255, 255, 255);

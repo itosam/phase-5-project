@@ -2,7 +2,7 @@
 
 import ItemList from "./ItemList"
 import Footer from "./Footer";
-import frame26 from "./Images/frame26.png"
+import frame26 from "./Images/frame26.png";
 
 const Home = ({items}) => {
     return (

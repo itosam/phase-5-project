@@ -19,14 +19,7 @@ const [itemInCart, setItemInCart] = useState([])
 
     return (
       <div>
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-around",
-            padding: "1rem",
-          }}
-        >
+        <div>
           {itemInCart.map((item) => {
             return (
               <ItemCartCard
@@ -39,7 +32,7 @@ const [itemInCart, setItemInCart] = useState([])
           })}
         </div>
         <Link to='/checkout'>
-        <Button>Check out</Button>
+        <button className="login_button" style={{margin:"2%"}}><strong>Check out</strong></button>
         </Link>
       </div>
     );

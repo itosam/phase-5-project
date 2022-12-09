@@ -22,7 +22,7 @@ const NavBar = () => {
     <Navbar bg="dark" varient="dark" expand="lg">
       <Container>
         <Navbar.Brand href="/" style={{ color: "white" }}>
-          Be@rbrick and Mortar
+          Be@rbrick & Mortar
         </Navbar.Brand>
         <Nav>
           <Nav.Link href="/login" style={{ color: "white" }}>

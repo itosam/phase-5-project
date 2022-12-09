@@ -73,7 +73,8 @@ const ItemCard = ({ id, name, price, image, brand, description }) => {
           style={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-around",
+            border: "none",
+            borderRadius: "0",
           }}
         >
           Login to Purchase
@@ -88,11 +89,22 @@ const ItemCard = ({ id, name, price, image, brand, description }) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-around",
+            border: "none",
+            borderRadius: "0",
             height: "10%",
           }}
         >
           item added
-          <Button variant="secondary" onClick={() => setAddToCart(false)}>
+          <Button
+            variant="secondary"
+            style={{
+              backgroundColor:"transparent",
+              border: "none",
+              color:"black",
+              borderRadius: "0",
+            }}
+            onClick={() => setAddToCart(false)}
+          >
             x
           </Button>
         </Alert>

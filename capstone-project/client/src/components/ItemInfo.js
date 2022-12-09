@@ -49,47 +49,45 @@ function handleAddItem() {
       <Card
         className="mx-auto"
         style={{
-          width: "50%",
+          width: "80%",
           padding: "3rem",
           marginLeft: "10%",
-          marginTop: "15%",
+          marginTop: "5%",
           marginBottom: "20%",
         }}
       >
         <Card.Body style={{ textAlign: "left" }}>
           <Row>
-          <Col>
-          <img
-            src={itemInfo.image}
-            alt={itemInfo.title}
-            style={{ position: "flex", width: "100%" }}
-          />
-          </Col>
-          <Col>
-          <strong>{itemInfo.name}</strong>
-          <p>
-            <strong>Description</strong>
-            <br />
-            {itemInfo.description}
-          </p>
-          <p>
-            <strong>Brand:</strong> {itemInfo.brand}
-          </p>
-          <p>
-            <strong>Price:</strong> ${itemInfo.price}
-          </p>
-          <Button
-            variant="outline-dark"
-            size="sm"
-            style={{ border: "solid 2px" }}
-            onClick={handleAddItem}
-          >
-            Add to Cart
-          </Button>
-          </Col>
+            <Col>
+              <img
+                src={itemInfo.image}
+                alt={itemInfo.title}
+                style={{ position: "flex", width: "100%" }}
+              />
+            </Col>
+            <Col>
+              <h4>
+                <stong>{itemInfo.name}</stong>
+              </h4>
+              <br />
+              <p>
+                <strong>Description</strong>
+                <br />
+                {itemInfo.description}
+              </p>
+              <p>
+                <strong>Brand:</strong> {itemInfo.brand}
+              </p>
+              <p>
+                <strong>Price:</strong> ${itemInfo.price}
+              </p>
+              <button class="add_button" onClick={handleAddItem}>
+                Add to Cart
+              </button>
+            </Col>
           </Row>
         </Card.Body>
-        
+
         {showAlert ? (
           <Alert
             variant="warning"
@@ -112,10 +110,20 @@ function handleAddItem() {
               alignItems: "center",
               justifyContent: "space-around",
               height: "3rem",
+              border: "none",
+              borderRadius: "0",
             }}
           >
             item added
-            <Button variant="secondary" onClick={() => setAddToCart(false)}>
+            <Button
+              style={{
+                backgroundColor: "transparent",
+                border: "none",
+                color:"black",
+                borderRadius: "0",
+              }}
+              onClick={() => setAddToCart(false)}
+            >
               x
             </Button>
           </Alert>
@@ -123,7 +131,7 @@ function handleAddItem() {
           ""
         )}
       </Card>
-      <Review/>
+      <Review />
     </div>
   );
 };
