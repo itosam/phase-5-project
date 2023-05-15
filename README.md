@@ -5,6 +5,8 @@
 
 ## Introduction
 
+<a href = https://vimeo.com/823793958><strong> DEMO Video Link</stong></a>
+
 This is my Phase 5 capstone project.
 This application is a Ecommerce site where users can browse and buy Bearbrick art figures.
 Users are able to:
